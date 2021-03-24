@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Login from "./components/Login";
+import { Container } from "@material-ui/core";
+
+import { Theme } from "./context/Theme";
+import { DataContextProvider } from "./context/DataContext";
+
+import firebase from "firebase/app";
+import "./firebaseConfig/config.js";
+import "firebase/auth";
 
 function App() {
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((user) => console.log(user.email));
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <DataContextProvider>
+      <Theme>
+        <Navbar />
+        <Login />
+      </Theme>
+    </DataContextProvider>
   );
 }
 
